@@ -44,7 +44,7 @@ st.sidebar.page_link("pages/settings.py", label="Settings")
 st.title('Real Tales 4 Kids: Creation Page')
 st.write("Select the Wikipedia page you want to create a story from.")
 page_title = st.text_input("Page Title")
-lang = st.selectbox("Language",["en","it"])
+lang = st.selectbox("Language",["en","it","es","fr","de"])
 
 
 st.button("Create Story", key="create_story",on_click=create_story)

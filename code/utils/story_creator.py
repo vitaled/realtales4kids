@@ -102,8 +102,15 @@ class StoryCreator:
 
         if self.lang == "it":
             locale = "it-IT"
+        if self.lang == "es":
+            locale = "es-ES"
+        if self.lang == "fr":
+            locale = "fr-FR"
+        if self.lang == "de":
+            locale = "de-DE"
         else:
             locale = "en-US"
+        
         
         
 
@@ -118,11 +125,27 @@ class StoryCreator:
 
         self.audio = f"code/stories/{story_id}/audio.wav"
 
+
         # Create a speech synthesizer with the speech configuration and audio output stream.
         speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_output)
 
         # Synthesize the text to speech and store it in a file.
         result = speech_synthesizer.speak_text_async(text_story).get()
+
+        import codecs
+        import json
+        with codecs.open(f"code/stories/{story_id}/story.txt", "w") as text_output_file:
+            text_output_file.write(text_story)
+
+        metadata = {
+            "page_title": self.page_title,
+            "lang": self.lang,
+            "audio_path": f"code/stories/{story_id}/audio.wav",
+            "story_path": f"code/stories/{story_id}/story.txt"
+        }
+        
+        with codecs.open(f"code/stories/{story_id}/metadata.json", "w") as metadata_output_file:
+            metadata_output_file.write(json.dumps(metadata))
 
         # Check result
         if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
